@@ -25,6 +25,12 @@ services:
     volumes:
       - .:/usr/src/app/
 
+  solr:
+    build: ./solr_docker
+    restart: unless-stopped
+    expose:
+      - "8983"
+
   web:
     build: .
     restart: unless-stopped
@@ -39,6 +45,7 @@ services:
     depends_on:
       - postgres
       - redis
+      - solr
     command: bundle exec puma -C config/puma.rb
     expose:
       - "3000"
